@@ -3,20 +3,18 @@ import './randomChar.css';
 import GotService from '../../services/gotService';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
-// import PropTypes from 'prop-types';
 
 function RandomChar() {
-    const {char, updateChar} = useState({});
-    const {loading, onLoading} = useState(true);
-    const {error, onError} = useState(false);
+    const [char, updateChar] = useState({});
+    const [loading, onLoading] = useState(true);
+    const [error, onError] = useState(false);
 
     const gotService = new GotService();
 
     useEffect(() => {
         updateCharacter();
-        const timerID = setInterval(updateChar, 1500);
-        clearInterval(timerID);
-        
+        const timerID = setInterval(updateCharacter, 15000);
+            return () => clearInterval(timerID);
     }, [])
 
     const updateCharacter = () => {
@@ -44,14 +42,6 @@ function RandomChar() {
         </div>
     );
 }
-
-// RandomChar.defaultProps = {
-//     interval: 15000
-// }
-
-// RandomChar.propTypes = {
-//     interval: PropTypes.number
-// }
 
 const View = ({char}) => {
     const {name, gender, born, died, culture} = char;
