@@ -18,16 +18,21 @@ export {
 }
 
 function ItemDetails({itemId, getData, children}) {
+    console.log(itemId);
 
     const [item, updateItem] = useState(null);
     const [loading, onLoading] = useState(true);
     const [error, onError] = useState(false);
 
+    const prevItemIdRef = useRef(itemId);
+
     useEffect(() => {
-        onCharDetails();
+        if (prevItemIdRef.itemId !== itemId) {
+            onCharDetails();
+        }
     }, [])
 
-    // const prevItemIdRef = useRef(itemId);
+    
 
     // useEffect(() => {
     //     if (prevItemIdRef !== itemId) {
@@ -86,6 +91,7 @@ function ItemDetails({itemId, getData, children}) {
             <ul className="list-group list-group-flush">
                 {
                     React.Children.map(children, (child) => {
+                        console.log(`children catch ${item.name}`)
                         return React.cloneElement(child, {item})
                     })
                 }
