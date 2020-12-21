@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
@@ -17,87 +17,81 @@ export {
     Field
 }
 
-export default class ItemDetails extends Component {
+function ItemDetails({itemId, getData, children}) {
 
-    state = {
-        item: null,
-        loading: true,
-        error: false
-    }
+    const [item, updateItem] = useState(null);
+    const [loading, onLoading] = useState(true);
+    const [error, onError] = useState(false);
 
-    componentDidMount() {
-        this.updateChar();
-    }
+    useEffect(() => {
+        onCharDetails();
+    }, [])
 
-    componentDidUpdate(prevProps) {
-        if (this.props.itemId !== prevProps.itemId) {
-            this.updateChar();
-        }
-    }
+    // const prevItemIdRef = useRef(itemId);
 
-    onCharDetailsLoaded = (item) => {
-        this.setState({
-            item,
-            loading: false
-        })
-    }
+    // useEffect(() => {
+    //     if (prevItemIdRef !== itemId) {
+    //         onCharDetails();
+    //     }
+    // }, [])
 
-    updateChar() {
-        const {itemId, getData} = this.props;
+    function onCharDetails() {
 
         if (!itemId) {
             return;
         }
 
-        this.setState({
-            loading: true
-        })
+        onLoading(true);
 
         getData(itemId)
-            .then(this.onCharDetailsLoaded)
-            .catch(() => this.onError())
+            .then((data) => {
+                updateItem(data);
+                console.log('OK')
+                onLoading(false);
+            })
+            .catch(() => {
+                updateItem(null);
+                onError(true);
+                console.log('Not OK')
+            })
     }
 
-    onError() {
-        this.setState({
-            item: null,
-            error: true
-        })
-    } 
 
-    render() {
-        if (!this.state.item && this.state.error) {
-            return (
-                <div className="random-block rounded">
-                    <ErrorMessage/>
-                </div>
-            )
-        } else if (!this.state.item) {
-            return <span className="select-error">Please select a character</span>
-        }        
+    if (!item && error) {
+        return (
+            <div className="random-block rounded">
+                <ErrorMessage/>
+            </div>
+        )
+    } else if (!item) {
+        return <span className="select-error">Please select a character</span>
+    }        
 
-        const {item} = this.state;
-        const {name} = item;
+    const {name} = item;
 
-        if (this.state.loading) {
-            return (
-                <div className="char-details rounded">
-                    <Spinner/>
-                </div>
-            )
-        }
+    if (loading) {
+        console.log('Spiner')
 
         return (
             <div className="char-details rounded">
-                <h4>{name}</h4>
-                <ul className="list-group list-group-flush">
-                    {
-                        React.Children.map(this.props.children, (child) => {
-                            return React.cloneElement(child, {item})
-                        })
-                    }
-                </ul>
+                <Spinner/>
             </div>
-        );
+        )
+        
     }
+
+    return (
+        <div className="char-details rounded">
+            <h4>{name}</h4>
+            <ul className="list-group list-group-flush">
+                {
+                    React.Children.map(children, (child) => {
+                        return React.cloneElement(child, {item})
+                    })
+                }
+            </ul>
+        </div>
+    );
 }
+
+export default ItemDetails;
