@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
@@ -24,21 +24,9 @@ function ItemDetails({itemId, getData, children}) {
     const [loading, onLoading] = useState(true);
     const [error, onError] = useState(false);
 
-    const prevItemIdRef = useRef(itemId);
-
     useEffect(() => {
-        if (prevItemIdRef.itemId !== itemId) {
-            onCharDetails();
-        }
-    }, [])
-
-    
-
-    // useEffect(() => {
-    //     if (prevItemIdRef !== itemId) {
-    //         onCharDetails();
-    //     }
-    // }, [])
+        onCharDetails();
+    }, [itemId])
 
     function onCharDetails() {
 
