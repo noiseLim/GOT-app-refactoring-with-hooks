@@ -3,7 +3,7 @@ import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
 import { Button } from 'reactstrap';
-import ErrorMessage from '../errorMessage';
+// import ErrorMessage from '../errorMessage';
 import {CharacterPage, HousesPage, BooksPage, BooksItem} from '../pages';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
@@ -15,7 +15,7 @@ import './app.css';
 
 function App() {
 
-    const [showRandomChar, updShowRandomChar] = useState(true);
+    const [showRandomChar, updShowRandomChar] = useState(false);
     // const [error, onError] = useState(false);
 
     useEffect(() => {
@@ -29,17 +29,9 @@ function App() {
     //     })
     // }
 
-    // const delRandomChar = () => {
-    //     this.setState((state) => {
-    //         return {
-    //             showRandomChar: !state.showRandomChar
-    //         }
-    //     });
-    // }
-
     const delRandomChar = () => {
         return (
-            !updShowRandomChar()
+            updShowRandomChar(!showRandomChar)
         )
         
     }

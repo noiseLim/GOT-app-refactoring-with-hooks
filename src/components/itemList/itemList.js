@@ -6,14 +6,19 @@ import ErrorMessage from '../errorMessage';
 function ItemList({getData, renderItem, onItemSelected}) {
 
     const [itemList, updateList] = useState([]);
+    const [loading, onLoading] = useState(true);
     const [error, onError] = useState(false);
 
     useEffect(() => {
         getData() 
             .then((data) => {
-                updateList(data)
+                updateList(data);
+                onLoading(false);
             })
-            .catch(() => onError(true));
+            .catch(() => {
+                onError(true);
+                onLoading(false);
+            });
     }, [])
 
     function renderItems(arr) {
@@ -39,7 +44,7 @@ function ItemList({getData, renderItem, onItemSelected}) {
         )
     }
 
-    if (!itemList) {
+    if (!itemList || loading) {
         return (
             <div className="random-block rounded">
                 <Spinner/>

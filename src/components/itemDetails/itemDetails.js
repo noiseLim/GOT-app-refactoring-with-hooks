@@ -18,7 +18,6 @@ export {
 }
 
 function ItemDetails({itemId, getData, children}) {
-    console.log(itemId);
 
     const [item, updateItem] = useState(null);
     const [loading, onLoading] = useState(true);
@@ -39,13 +38,11 @@ function ItemDetails({itemId, getData, children}) {
         getData(itemId)
             .then((data) => {
                 updateItem(data);
-                console.log('OK')
                 onLoading(false);
             })
             .catch(() => {
                 updateItem(null);
                 onError(true);
-                console.log('Not OK')
             })
     }
 
@@ -63,8 +60,6 @@ function ItemDetails({itemId, getData, children}) {
     const {name} = item;
 
     if (loading) {
-        console.log('Spiner')
-
         return (
             <div className="char-details rounded">
                 <Spinner/>
@@ -79,7 +74,6 @@ function ItemDetails({itemId, getData, children}) {
             <ul className="list-group list-group-flush">
                 {
                     React.Children.map(children, (child) => {
-                        console.log(`children catch ${item.name}`)
                         return React.cloneElement(child, {item})
                     })
                 }
