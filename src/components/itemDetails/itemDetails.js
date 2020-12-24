@@ -28,7 +28,6 @@ function ItemDetails({itemId, getData, children}) {
     }, [itemId])
 
     function onCharDetails() {
-
         if (!itemId) {
             return;
         }
@@ -45,7 +44,6 @@ function ItemDetails({itemId, getData, children}) {
                 onError(true);
             })
     }
-
 
     if (!item && error) {
         return (
@@ -65,7 +63,6 @@ function ItemDetails({itemId, getData, children}) {
                 <Spinner/>
             </div>
         )
-        
     }
 
     return (
