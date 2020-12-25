@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ItemList from '../itemList';
 import ItemDetails, {Field} from '../itemDetails';
-// import ErrorMessage from '../errorMessage';
 import GotService from '../../services/gotService';
 import RowBlock from '../rowBlock';
 
@@ -10,7 +9,6 @@ function CharacterPage() {
     const gotService = new GotService();
 
     const [selectedChar, updSelectedChar] = useState(130);
-    // const [error, onError] = useState(false);
 
     useEffect(() => {
         onItemSelected();
@@ -19,16 +17,6 @@ function CharacterPage() {
     const onItemSelected = (id) => {
         updSelectedChar(id);
     }
-    
-    // componentDidCatch() {
-    //     this.setState({
-    //         error: true
-    //     })
-    // }
-
-    // if (error) {
-    //     return <ErrorMessage/>
-    // }
 
     const itemList = (
         <ItemList
